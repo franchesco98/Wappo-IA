@@ -1,1 +1,1 @@
-print "tus muertos"
+print "juanlu tus muertos cabron"
