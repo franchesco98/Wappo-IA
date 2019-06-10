@@ -1,1 +1,9 @@
-print "juanlu tus muertos cabron"
+
+
+def es_obstaculo(estado, casillaX,casillaY):
+    return 
+
+
+
+
+    
