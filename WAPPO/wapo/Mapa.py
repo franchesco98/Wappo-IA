@@ -1,4 +1,5 @@
 class Mapa:
+    
     def __init__(self, celdas):
         self.celdas = celdas
     
@@ -10,3 +11,7 @@ class Mapa:
     
     def tipo_celda(self, f, c):
         return self.celdas[f][c]
+    
+   
+    
+        
