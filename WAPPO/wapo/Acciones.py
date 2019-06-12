@@ -3,7 +3,9 @@ print("Ejercicio 1")
 
 einicial = (5,0) #Casilla 5-0
 efinal = (1,9)
-
+# LEETELO
+# lo que he puesto que no se pued emover a una casilla trampa no estoy seguro
+# asique esa restriccion alomejor habria qu quitarla
 # Aqui esta la applicabilidad de que si mapa.ejemplo.tpo celdo es cero que
 # esta considerado como un obstaculo entonces nose mueve
 def aplicabilidadMRight(estado):
