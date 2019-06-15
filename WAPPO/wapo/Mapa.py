@@ -12,6 +12,42 @@ class Mapa:
     def tipo_celda(self, f, c):
         return self.celdas[f][c]
     
-   
+    def monstruo(self):
+            
+        for i in range(self.tamano_ver()):
+            for j in range (self.tamano_hor()):
+               
+                if(self.tipo_celda(i, j) == "monstruo"):
+                    return (i, j)
     
+    def obstaculo(self):
+        obstaculos = []
+        
+        for i in range(self.tamano_ver()):
+            for j in range (self.tamano_hor()):
+                
+                if(self.tipo_celda(i, j) == "obstaculo"):
+                    obstaculo = (i, j)
+                    obstaculos.append(obstaculo)
+        return obstaculos
+    
+    def obstaculoColumna(self, columna):
+        obstaculos = []
+        
+        for i in range(self.tamano_ver()):
+                
+                if(self.tipo_celda(i, columna) == "obstaculo"):
+                    obstaculo = (i, columna)
+                    obstaculos.append(obstaculo)
+        return obstaculos
+        
+    def obstaculoFilas(self, fila):
+        obstaculos = []
+        
+        for j in range (self.tamano_hor()):
+                
+            if(self.tipo_celda(fila, j) == "obstaculo"):
+                obstaculo = (fila, j)
+                obstaculos.append(obstaculo)
+        return obstaculos
         
