@@ -247,9 +247,9 @@ def aplicarMonstruoMismaColumnaDown(differenteFilaYColumna = False):
     a=mismaColumnaDown()
     if(len(a)==0):
         return estadoMonstruo[0]+mov,estadoMonstruo[1]
-    elif(abs(estadoMonstruo[0]-min(mismaColumnaUp())[0])<4):
-        print abs(estadoMonstruo[0]-min(mismaColumnaUp())[0]),"valor"
-        return estadoMonstruo[0]+abs(min(mismaColumnaUp())[0]-estadoMonstruo[0]),estadoMonstruo[1]
+    elif(abs(estadoMonstruo[0]-min(mismaColumnaDown())[0])<4):
+        print abs(estadoMonstruo[0]-min(mismaColumnaDown())[0]),"valor"
+        return estadoMonstruo[0]+abs(min(mismaColumnaDown())[0]-estadoMonstruo[0])-1,estadoMonstruo[1]
     else:
         return estadoMonstruo[0]+mov,estadoMonstruo[1]
   
@@ -293,10 +293,10 @@ def aplicarMonstruoDependiendoPosicionJugadorFila(estadoJugador, differenteFilaY
     
     diferenciaFilas = estadoJugador[0] - estadoMonstruo[0];
     
-    # si diferenciaFilas es mayor que 0, querrá decir que el jugador está a la derecha del monstruo, con lo cual el monstruo se tendrá que mover a la derecha
+    # si diferenciaFilas es mayor que 0, querra decir que el jugador esta a la derecha del monstruo, con lo cual el monstruo se tendra que mover a la derecha
     if(diferenciaFilas > 0):
         estadoMonstruo = aplicarMonstruoMismaFilaDerecha(differenteFilaYColumna);
-    # en caso contrario, el jugador está a la izquierda del monstruo, con lo cual el monstruo se tendrá que mover a la izquierda
+    # en caso contrario, el jugador esta a la izquierda del monstruo, con lo cual el monstruo se tendra que mover a la izquierda
     else:
         estadoMonstruo = aplicarMonstruoMismaFilaIzq(differenteFilaYColumna);
     
@@ -307,10 +307,10 @@ def aplicarMonstruoDependiendoPosicionJugadorColumna(estadoJugador, diferenteFil
     
     diferenciaColumnas = estadoJugador[1] - estadoMonstruo[1];
     
-    # si diferenciaColumnas es mayor que 0, querrá decir que el jugador está debajo del monstruo, con lo cual el monstruo se tendrá que mover hacia abajo
+    # si diferenciaColumnas es mayor que 0, querra decir que el jugador esta debajo del monstruo, con lo cual el monstruo se tendra que mover hacia abajo
     if(diferenciaColumnas > 0):
         estadoMonstruo = aplicarMonstruoMismaColumnaUp(diferenteFilaYColumna);
-    # en caso contrario, el jugador está encima del monstruo, con lo cual el monstruo se tendrá que mover hacia arriba
+    # en caso contrario, el jugador esta encima del monstruo, con lo cual el monstruo se tendra que mover hacia arriba
     else:
         estadoMonstruo = aplicarMonstruoMismaColumnaDown(diferenteFilaYColumna);
      
@@ -335,5 +335,5 @@ mapa_ejemplo = Mapa([[1, 1, 1, 1, 1, 1, 1, 0, 0, "obstaculo"],
 
 print mapa_ejemplo.monstruo()
 
-print aplicarMonstruoMismaFilaIzq()
+print aplicarMonstruoMismaColumnaDown(False)
 
