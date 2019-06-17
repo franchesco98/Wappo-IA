@@ -19,6 +19,12 @@ class Mapa:
                
                 if(self.tipo_celda(i, j) == "monstruo"):
                     return (i, j)
+                
+    def actualizarMonstruo(self, nuevoEstado):
+        estadoMonstruoAntiguo = self.monstruo();
+        self.celdas[estadoMonstruoAntiguo[0]][estadoMonstruoAntiguo[1]] = 1;
+        self.celdas[nuevoEstado[0]][nuevoEstado[1]] = "monstruo";
+        return nuevoEstado;
     
     def obstaculo(self):
         obstaculos = []

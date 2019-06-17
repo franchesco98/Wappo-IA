@@ -104,12 +104,16 @@ def aplicarMonstruoMismaFilaDerecha(differenteFilaYColumna = False):
     estadoMonstruo=mapa_ejemplo.monstruo()
     a=mismaFilaDerecha()
     if(len(a)==0):
-        return estadoMonstruo[0],estadoMonstruo[1]+mov
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]+mov
     elif(abs(estadoMonstruo[1]-min(mismaFilaDerecha())[1])<4):
-        return estadoMonstruo[0],estadoMonstruo[1]+abs(estadoMonstruo[1]-min(mismaFilaDerecha())[1])-1
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]+abs(estadoMonstruo[1]-min(mismaFilaDerecha())[1])-1
     else:
-        return estadoMonstruo[0],estadoMonstruo[1]+mov
-     
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]+mov
+    
+    
+    mapa_ejemplo.actualizarMonstruo(estadoNuevo);
+    
+    return estadoNuevo;
      
      
 #     estadoMonstruo=mapa_ejemplo.monstruo()
@@ -142,14 +146,16 @@ def aplicarMonstruoMismaFilaIzq(differenteFilaYColumna = False):
     estadoMonstruo=mapa_ejemplo.monstruo()
     a=mismaFilaIzquierda()
     if(len(a)==0):
-        return estadoMonstruo[0],estadoMonstruo[1]-mov
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]-mov
     elif(abs(estadoMonstruo[1]-max(mismaFilaIzquierda())[1])<4):
         print abs(estadoMonstruo[1]-max(mismaFilaIzquierda())[1]),"valor"
-        return estadoMonstruo[0],estadoMonstruo[1]-(abs(estadoMonstruo[1]-max(mismaFilaIzquierda())[1]))+1
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]-(abs(estadoMonstruo[1]-max(mismaFilaIzquierda())[1]))+1
     else:
-        return estadoMonstruo[0],estadoMonstruo[1]-mov
+        estadoNuevo = estadoMonstruo[0],estadoMonstruo[1]-mov
     
+    mapa_ejemplo.actualizarMonstruo(estadoNuevo);
     
+    return estadoNuevo
     
     
      
@@ -180,14 +186,15 @@ def aplicarMonstruoMismaColumnaUp(differenteFilaYColumna = False):
     estadoMonstruo=mapa_ejemplo.monstruo()
     a=mismaColumnaUp()
     if(len(a)==0):
-        return estadoMonstruo[0]-mov,estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]-mov,estadoMonstruo[1]
     elif(abs(estadoMonstruo[0]-max(mismaColumnaUp())[0])<4):
-        return estadoMonstruo[0]+1-abs(max(mismaColumnaUp())[0]-estadoMonstruo[0]),estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]+1-abs(max(mismaColumnaUp())[0]-estadoMonstruo[0]),estadoMonstruo[1]
     else:
-        return estadoMonstruo[0]-mov,estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]-mov,estadoMonstruo[1]
         
-
- 
+    
+    mapa_ejemplo.actualizarMonstruo(estadoNuevo);
+    return estadoNuevo;
     
         
     
@@ -246,14 +253,16 @@ def aplicarMonstruoMismaColumnaDown(differenteFilaYColumna = False):
     estadoMonstruo=mapa_ejemplo.monstruo()
     a=mismaColumnaDown()
     if(len(a)==0):
-        return estadoMonstruo[0]+mov,estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]+mov,estadoMonstruo[1]
     elif(abs(estadoMonstruo[0]-min(mismaColumnaDown())[0])<4):
         print abs(estadoMonstruo[0]-min(mismaColumnaDown())[0]),"valor"
-        return estadoMonstruo[0]+abs(min(mismaColumnaDown())[0]-estadoMonstruo[0])-1,estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]+abs(min(mismaColumnaDown())[0]-estadoMonstruo[0]),estadoMonstruo[1]
     else:
-        return estadoMonstruo[0]+mov,estadoMonstruo[1]
+        estadoNuevo = estadoMonstruo[0]+mov,estadoMonstruo[1]
   
-  
+    mapa_ejemplo.actualizarMonstruo(estadoNuevo);
+    
+    return estadoNuevo;
   
   
   
@@ -278,14 +287,18 @@ def aplicarMonstruoDistintaFilaYColumna(estado):
     
     estadoNuevo = aplicarMonstruoDependiendoPosicionJugadorFila(estado, True);
     
-    if(estadoMonstruo[0] == estadoNuevo[0] and estadoMonstruo[1] == estadoNuevo[1]):
-        diferenteFilaYColumna = True;
-    else: 
-        diferenteFilaYColumna = False;
-        
-    estadoMonstruo = aplicarMonstruoDependiendoPosicionJugadorColumna(estado, diferenteFilaYColumna);
+    print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
     
-    return estadoMonstruo;
+    if(estadoMonstruo[0] == estadoNuevo[0] and estadoMonstruo[1] == estadoNuevo[1]):
+        diferenteFilaYColumna = False;
+    else: 
+        diferenteFilaYColumna = True;
+        
+    estadoNuevo = aplicarMonstruoDependiendoPosicionJugadorColumna(estado, diferenteFilaYColumna);
+    
+    print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
+    
+    return estadoNuevo;
 
 
 def aplicarMonstruoDependiendoPosicionJugadorFila(estadoJugador, differenteFilaYColumna = False):
@@ -325,15 +338,26 @@ def aplicarMonstruoDependiendoPosicionJugadorColumna(estadoJugador, diferenteFil
 
 mapa_ejemplo = Mapa([[1, 1, 1, 1, 1, 1, 1, 0, 0, "obstaculo"],
                      [1, 1, 1, 1, 2, 2, 2, 0, 0, "obstaculo"],
-                     [1, 1, 1, 2, 2, 4, "obstaculo", 2, 1, "monstruo"],
-                     [1, 1, 1, 2, 4, 4, 4, 2, 1, "0"],
+                     [1, 1, 1, 2, 2, 4, "obstaculo", 2, "monstruo", 1],
+                     [1, 1, 1, 2, 4, 4, 4, 2, 1, 1],
                      [1, 1, 1, "ostaculo", 2, 4, 0, 0, 0, "o"],
                      [1, 1, 1, 100, 2, 2, 0, 0, 0, "obstaculo"]])
 
 
 
 
-print mapa_ejemplo.monstruo()
+# print mapa_ejemplo.monstruo()
+# 
+# print aplicarMonstruoMismaFilaIzq()
+
+estadoJugador = (0,0);
+
+print "Monstruo: ",mapa_ejemplo.monstruo();
+
+print "Nueva posicion monstruo:",aplicarMonstruoDistintaFilaYColumna(estadoJugador);
 
 print aplicarMonstruoMismaColumnaDown(False)
+
+mapa_ejemplo.actualizarMonstruo(estadoJugador);
+
 
