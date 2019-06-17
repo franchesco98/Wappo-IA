@@ -40,6 +40,9 @@ class Mapa:
                     obstaculo = (i, columna)
                     obstaculos.append(obstaculo)
         return obstaculos
+    
+    
+    
         
     def obstaculoFilas(self, fila):
         obstaculos = []
