@@ -6,6 +6,7 @@ class Mapa:
         self.jugador = jugador;
         self.turnoMonstruo = 0;
         self.turnoJugador = 0;
+        self.turno = "jugador";
     
     def tamano_hor(self):
         return len(self.celdas[0])
@@ -78,4 +79,24 @@ class Mapa:
         
     def actualizarTurnoMonstruo(self, numeroTurnos):
         self.turnoMonstruo = numeroTurnos;
+        
+    def obtenerCasillaFinal(self):
+        casillaFinal = None;
+        for i in range(self.tamano_ver()):
+            for j in range(self.tamano_hor()):
+                if (self.tipo_celda(i, j) == "fin"):
+                    casillaFinal = (i, j);
+                    break;
+                
+        return casillaFinal;
+    def estadoFinal(self):
+        casillaFinal = self.obtenerCasillaFinal();
+        ret = False;
+        
+        if(casillaFinal != None\
+            and ((self.obtenerJugador()[0] == casillaFinal[0] and self.obtenerJugador()[1] == casillaFinal[1])\
+                 or (self.obtenerJugador([0]) == self.obtenerMonstruo()[0]) and self.obtenerJugador()[1] == self.obtenerMonstruo()[1])): 
+            ret = True;
+            
+        return ret;
         

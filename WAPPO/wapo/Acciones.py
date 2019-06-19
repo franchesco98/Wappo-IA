@@ -1,6 +1,8 @@
 from wapo.Mapa import Mapa
 from wapo.Monstruo import Monstruo
 from wapo.Jugador import Jugador
+import problema_espacio_estados as probee 
+import busqueda_espacio_estados as busqee
 print("Ejercicio 1")
 
 einicial = (5,3) #Casilla 5-0
@@ -11,7 +13,7 @@ efinal = (1,6)
 # Aqui esta la applicabilidad de que si mapa.ejemplo.tpo celdo es cero que
 # esta considerado como un obstaculo entonces nose mueve
 def aplicabilidadMRight(estado):
-    return estado[1] < mapa_ejemplo.tamano_hor()-1 and estado[1]+2 <= mapa_ejemplo.tamano_hor()-1  and  mapa_ejemplo.tipo_celda(estado[0], estado[1] + 2) !="obstaculo"  and  mapa_ejemplo.tipo_celda(estado[0], estado[1] + 1) !="obstaculo"
+    return estado[1] < mapa_ejemplo.tamano_hor() and estado[1] + 2 < mapa_ejemplo.tamano_hor() and  mapa_ejemplo.tipo_celda(estado[0], estado[1] + 1) !="obstaculo"
 
 def actualizarMovimientoJugador(estado, estadoActualizado):
     estadoNuevo = estado;
@@ -39,7 +41,7 @@ def coste(estado):
 #Accion "Moverse a la izquierda"
     
 def aplicabilidadMoveLeft(estado):
-    return estado[1] > 0 and (estado[1] - 2) >= 0 and mapa_ejemplo.tipo_celda(estado[0], estado[1] - 2) != "obstaculo" and mapa_ejemplo.tipo_celda(estado[0], estado[1] - 1) != "obstaculo"
+    return estado[1] > 1 and (estado[1] - 2) >= 0 and mapa_ejemplo.tipo_celda(estado[0], estado[1] - 1) !="obstaculo"
 
 
 def aplicarMLeft(estado):
@@ -48,7 +50,7 @@ def aplicarMLeft(estado):
 #Accion "Moverse hacia abajo"
 
 def aplicabilidadMoveDown(estado):
-    return estado[0] < mapa_ejemplo.tamano_ver()-1 and estado[0]-2>=0 <=mapa_ejemplo.tamano_ver()-1  and mapa_ejemplo.tipo_celda(estado[0]+2, estado[1]) != "obstaculo" and mapa_ejemplo.tipo_celda(estado[0]+1, estado[1]) != "obstaculo"
+    return estado[0] < mapa_ejemplo.tamano_ver() and estado[0] + 2 < mapa_ejemplo.tamano_ver()  and mapa_ejemplo.tipo_celda(estado[0] + 1, estado[1]) !="obstaculo"
 
 
 def aplicarMDown(estado):
@@ -57,7 +59,7 @@ def aplicarMDown(estado):
 
 #Accion "Moverse hacia arriba"
 def aplicabilidadMoveUp(estado):
-    return estado[0] > 0 and estado[0]-2>=0 and mapa_ejemplo.tipo_celda(estado[0]-2, estado[1]) != "obstaculo" and mapa_ejemplo.tipo_celda(estado[0]-1, estado[1]) != "obstaculo"
+    return estado[0] > 1 and estado[0] - 2 >= 0 and mapa_ejemplo.tipo_celda(estado[0] - 1, estado[1]) !="obstaculo"
 
 
 def aplicarMUp(estado):
@@ -91,27 +93,72 @@ def actualizarMovimientoMonstruo(movimiento, estado, estadoActualizado, paso):
         
     return estadoNuevo;
 
-def aplicabilibilidadMonstruo(estado):
-    estadoMonstruo=mapa_ejemplo.obtenerMonstruo()
-    
-    if(estado[0]==estadoMonstruo[0]):
-        movimientos=3
-        
-        return (estadoMonstruo[1]+movimientos < mapa_ejemplo.tamano_hor()-1 or estadoMonstruo[1] > 0) and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1]+movimientos) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1]-movimientos) != "obstaculo")
-    
-    elif(estado[1]==estadoMonstruo[1]):
-        
-        movimientos = 3
-        
-        return (estadoMonstruo[0]+movimientos < mapa_ejemplo.tamano_ver()-1 or estadoMonstruo[0]>0) and(mapa_ejemplo.tipo_celda(estadoMonstruo[0]+movimientos, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0]-movimientos, estadoMonstruo[1])!="obstaculo")
-        
-    
-    else:
-        movimientos=3
-        
-        return (estadoMonstruo[1]+movimientos < mapa_ejemplo.tamano_hor()-1 or estadoMonstruo[1] > 0) and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1]+movimientos) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1]-movimientos) != "obstaculo") or (estadoMonstruo[0]+movimientos < mapa_ejemplo.tamano_ver()-1 or estadoMonstruo[0]>0) and(mapa_ejemplo.tipo_celda(estadoMonstruo[0]+movimientos, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0]-movimientos, estadoMonstruo[1])!="obstaculo")
+# def aplicabilibilidadMonstruo():
+#     
+#     estadoMonstruo = mapa_ejemplo.obtenerMonstruo()
+#     estado = mapa_ejemplo.obtenerJugador()
+#     
+#     if(estado[0] == estadoMonstruo[0]):
+#         
+#         return (estadoMonstruo[1] + 2 < mapa_ejemplo.tamano_hor() - 1 or estadoMonstruo[1] + 4 < mapa_ejemplo.tamano_hor() - 1 or estadoMonstruo[1] - 2 > 0 or estadoMonstruo[1] - 4 > 0) and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 2) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 4) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 2) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 4) != "obstaculo")
+#     
+#     elif(estado[1] == estadoMonstruo[1]):
+#         
+#         return (estadoMonstruo[0] + 2 < mapa_ejemplo.tamano_ver() - 1 or estadoMonstruo[0] + 4 < mapa_ejemplo.tamano_ver() - 1 or estadoMonstruo[0] - 2 > 0 or estadoMonstruo[0] - 4 > 0) and(mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 2, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 4, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 2, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 4, estadoMonstruo[1]) != "obstaculo")
+#     
+#     else:
+#         
+#         return (estadoMonstruo[1] + 2 < mapa_ejemplo.tamano_hor() - 1 or estadoMonstruo[1] + 4 < mapa_ejemplo.tamano_hor() - 1 or estadoMonstruo[1] - 2 > 0 or estadoMonstruo[1] - 4 > 0) and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 2) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 4) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 2) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 4) != "obstaculo") and (estadoMonstruo[0] + 2 < mapa_ejemplo.tamano_ver() - 1 or estadoMonstruo[0] + 4 < mapa_ejemplo.tamano_ver() - 1 or estadoMonstruo[0] - 2 > 0 or estadoMonstruo[0] - 4 > 0) and(mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 2, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 4, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 2, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 4, estadoMonstruo[1]) != "obstaculo")
 
 
+def aplicabilidadMonstruoMismaFilaIzq(estadoJugador):
+    estadoMonstruo = mapa_ejemplo.obtenerMonstruo();
+    b = estadoMonstruo[0] == estadoJugador[0] \
+        and (estadoMonstruo[1] - 2 >= 0 or estadoMonstruo[1] - 4 >= 0)\
+        and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo");       
+    
+    if (b and mapa_ejemplo.turno == "monstruo"):
+        mapa_ejemplo.turno = "jugaador";
+    else: 
+        b = False;
+    
+    return b;
+
+
+def aplicabilidadMonstruoMismaFilaDerecha(estadoJugador):
+    estadoMonstruo = mapa_ejemplo.obtenerMonstruo();
+    return estadoMonstruo[0] == estadoJugador[0] \
+        and (estadoMonstruo[1] + 2 < mapa_ejemplo.tamano_hor() or estadoMonstruo[1] + 4 < mapa_ejemplo.tamano_hor())\
+        and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo");
+
+def aplicabilidadMonstruoMismaColumnaUp(estadoJugador):
+    estadoMonstruo = mapa_ejemplo.obtenerMonstruo();
+    return estadoMonstruo[1] == estadoJugador[1] \
+        and (estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
+        and (mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo");
+
+
+def aplicabilidadMonstruoMismaColumnaDown(estadoJugador):
+    estadoMonstruo = mapa_ejemplo.obtenerMonstruo();
+    return estadoMonstruo[1] == estadoJugador[1] \
+        and (estadoMonstruo[0] + 2 < mapa_ejemplo.tamano_ver() or estadoMonstruo[0] + 4 < mapa_ejemplo.tamano_ver())\
+        and (mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo");
+        
+        
+def aplicabilidadMonstruoDistintaFilaYColumna(estadoJugador):
+    estadoMonstruo = mapa_ejemplo.obtenerMonstruo();
+    
+    # tanto monstruo como jugador estan en filas y columnas distintas
+    return estadoMonstruo[0] != estadoJugador[0]\
+        and estadoMonstruo[1] != estadoJugador[1]\
+        and ((estadoMonstruo[1] - 2 >= 0 or estadoMonstruo[1] - 4 >= 0)\
+            and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo"))\
+            or ((estadoMonstruo[1] + 2 < mapa_ejemplo.tamano_hor() or estadoMonstruo[1] + 4 < mapa_ejemplo.tamano_hor())\
+                and (mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo"))\
+            or ((estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
+                and (mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo"))\
+            or ((estadoMonstruo[0] + 2 < mapa_ejemplo.tamano_ver() or estadoMonstruo[0] + 4 < mapa_ejemplo.tamano_ver())\
+                and (mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or mapa_ejemplo.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo"));
 
 def mismaFilaDerecha():
     arrayPos=[]
@@ -137,7 +184,7 @@ def mismaFilaIzquierda():
     return arrayPos 
 
     
-def aplicarMonstruoMismaFilaDerecha(differenteFilaYColumna = False):
+def aplicarMonstruoMismaFilaDerecha(estado, differenteFilaYColumna = False):
      
     if (differenteFilaYColumna):
         mov = 2
@@ -173,7 +220,7 @@ def aplicarMonstruoMismaFilaDerecha(differenteFilaYColumna = False):
      
     
      
-def aplicarMonstruoMismaFilaIzq(differenteFilaYColumna = False):
+def aplicarMonstruoMismaFilaIzq(estado, differenteFilaYColumna = False):
      
      
     if (differenteFilaYColumna):
@@ -212,7 +259,7 @@ def aplicarMonstruoMismaFilaIzq(differenteFilaYColumna = False):
      
          
      
-def aplicarMonstruoMismaColumnaUp(differenteFilaYColumna = False):
+def aplicarMonstruoMismaColumnaUp(estado, differenteFilaYColumna = False):
     
     
     if (differenteFilaYColumna):
@@ -280,7 +327,7 @@ def mismaColumnaDown():
 
      
      
-def aplicarMonstruoMismaColumnaDown(differenteFilaYColumna = False):
+def aplicarMonstruoMismaColumnaDown(estado, differenteFilaYColumna = False):
     
     if (differenteFilaYColumna):
         mov = 2
@@ -371,40 +418,74 @@ def aplicarMonstruoDependiendoPosicionJugadorColumna(estadoJugador, diferenteFil
 
       
         
-monstruo = Monstruo(0,2);
+monstruo = Monstruo(2,0);
 
-jugador = Jugador(0,0);
+jugador = Jugador(8,4);
 
-mapa_ejemplo = Mapa([[1, 1, "trampa", 1, 1, 1, 1, 0, 0, "obstaculo"],
-                     [1, 1, 1, 1, 2, 2, 2, 0, 0, "obstaculo"],
-                     [1, 1, 1, 2, 2, 4, "obstaculo", 2, 8, 1],
-                     [1, 1, 1, 2, 4, 4, 4, 2, 1, 1],
-                     [1, 1, "trampa", "ostaculo", 2, 4, 0, 0, 0, "o"],
-                     [1, 1, 1, 100, 2, 2, 0, 0, 0, "obstaculo"]], monstruo, jugador);
+# mapa_ejemplo = Mapa([[1, 1, "trampa", 1, 1, 1, 1, 0, 0, "obstaculo"],
+#                      [1, 1, 1, 1, 2, 2, 2, 0, 0, "obstaculo"],
+#                      [1, 1, 1, 2, 2, 4, "obstaculo", 2, 8, 1],
+#                      [1, 1, 1, 2, 4, 4, 4, 2, 1, 1],
+#                      [1, 1, "trampa", "ostaculo", 2, 4, 0, 0, 0, "o"],
+#                      [1, 1, 1, 100, 2, 2, 0, 0, 0, "obstaculo"],
+#                      ["obstaculo","obstaculo","obstaculo","obstaculo","obstaculo","obstaculo",1,"obstaculo","obstaculo","obstaculo","obstaculo""obstaculo"],
+#                      ["obstaculo","obstaculo","obstaculo","obstaculo","obstaculo","obstaculo",1,"obstaculo","obstaculo","obstaculo","obstaculo""obstaculo"]], monstruo, jugador);
 
 
+mapa_ejemplo = Mapa([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      ["obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "fin"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"],
+                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo", "obstaculo"]], monstruo, jugador);
+                      
 
+moverArribaJugador = probee.Accion("Mover jugador hacia arriba", aplicabilidadMoveUp, aplicarMUp, coste);
+moverAbajoJugador = probee.Accion("Mover jugador hacia abajo", aplicabilidadMoveDown, aplicarMDown, coste);
+moverIzquierdaJugador = probee.Accion("Mover jugador hacia la izquierda", aplicabilidadMoveLeft, aplicarMLeft, coste);
+moverDerechaJugador = probee.Accion("Mover jugador hacia la derecha", aplicabilidadMRight, aplicarMRight, coste);
+
+moverArribaMonstruo = probee.Accion("Mover monstruo hacia arriba", aplicabilidadMonstruoMismaColumnaUp, aplicarMonstruoMismaColumnaUp, coste);
+moverAbajoMonstruo = probee.Accion("Mover monstruo hacia abajo", aplicabilidadMonstruoMismaColumnaDown, aplicarMonstruoMismaColumnaDown, coste);
+moverIzquierdaMonstruo = probee.Accion("Mover monstruo hacia la izquierda", aplicabilidadMonstruoMismaFilaIzq, aplicarMonstruoMismaFilaIzq, coste);
+moverDerechaMonstruo = probee.Accion("Mover monstruo hacia la derecha", aplicabilidadMonstruoMismaFilaDerecha, aplicarMonstruoMismaFilaDerecha, coste);
+
+acciones = [moverArribaJugador, moverAbajoJugador, moverIzquierdaJugador, moverDerechaJugador, moverArribaMonstruo ,moverAbajoMonstruo ,moverIzquierdaMonstruo, moverDerechaMonstruo]
+
+problema = probee.ProblemaEspacioEstados(acciones, jugador, [mapa_ejemplo.obtenerCasillaFinal()]);
+
+print("b_optima_nueva.buscar[problema]") 
+b_optima_nueva = busqee.BusquedaOptima() 
+print("\n") 
+print("b_optima_nueva.buscar[problema]") 
+print(b_optima_nueva.buscar(problema))
 
 # print mapa_ejemplo.obtenerMonstruo()
 # 
 # print aplicarMonstruoMismaFilaIzq()
 
-print "Monstruo: ",mapa_ejemplo.obtenerMonstruo();
-
-print "Nueva posicion jugador: ", aplicarMRight(mapa_ejemplo.obtenerJugador()), " | Turnos jugador: ",mapa_ejemplo.turnoJugador;
-
-# print "Nueva posicion monstruo:",aplicarMonstruoDistintaFilaYColumna(mapa_ejemplo.obtenerJugador());
-
-print "Nueva posicion monstruo: ",aplicarMonstruoMismaColumnaDown();
-
-print "Turnos monstruo: ",mapa_ejemplo.turnoMonstruo;
-
-print "Turnos jugador: ",mapa_ejemplo.turnoJugador;
-
-print "Nueva posicion jugaador: ",aplicarMLeft(mapa_ejemplo.obtenerJugador());
-
-print "Turno monstruo: ",mapa_ejemplo.turnoMonstruo;
-
-print "Nueva posicion monstruo: ",aplicarMonstruoDistintaFilaYColumna(mapa_ejemplo.obtenerMonstruo());
-
-print "Turno jugador: ",mapa_ejemplo.turnoJugador;
+# print "Monstruo: ",mapa_ejemplo.obtenerMonstruo();
+# 
+# print "Nueva posicion jugador: ", aplicarMRight(mapa_ejemplo.obtenerJugador()), " | Turnos jugador: ",mapa_ejemplo.turnoJugador;
+# 
+# # print "Nueva posicion monstruo:",aplicarMonstruoDistintaFilaYColumna(mapa_ejemplo.obtenerJugador());
+# 
+# print "Nueva posicion monstruo: ",aplicarMonstruoMismaColumnaDown();
+# 
+# print "Turnos monstruo: ",mapa_ejemplo.turnoMonstruo;
+# 
+# print "Turnos jugador: ",mapa_ejemplo.turnoJugador;
+# 
+# print "Nueva posicion jugaador: ",aplicarMLeft(mapa_ejemplo.obtenerJugador());
+# 
+# print "Turno monstruo: ",mapa_ejemplo.turnoMonstruo;
+# 
+# print "Nueva posicion monstruo: ",aplicarMonstruoDistintaFilaYColumna(mapa_ejemplo.obtenerMonstruo());
+# 
+# print "Turno jugador: ",mapa_ejemplo.turnoJugador;
