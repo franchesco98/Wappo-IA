@@ -1,12 +1,12 @@
 from wapo.Mapa import Mapa
 from wapo.Monstruo import Monstruo
 from wapo.Jugador import Jugador
-import problema_espacio_estados as probee 
-import busqueda_espacio_estados as busqee
+import wapo.problema_espacio_estados as probee 
+import wapo.busqueda_espacio_estados as busqee
+import copy
+
 print("Ejercicio 1")
 
-einicial = (5,3) #Casilla 5-0
-efinal = (1,6)
 # LEETELO
 # lo que he puesto que no se pued emover a una casilla trampa no estoy seguro
 # asique esa restriccion alomejor habria qu quitarla
@@ -370,7 +370,7 @@ def aplicarMonstruoDistintaFilaYColumna(estado):
     
     estadoNuevo = aplicarMonstruoDependiendoPosicionJugadorFila(estado, True);
     
-    print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
+#     print "estadoMonstruo[0]: " + str(estadoMonstruo[0]) + "| estadoNuevo[0]" + str(estadoNuevo[0]) + "| estadoMonstruo[1]" + str(estadoMonstruo[1]) + "| estadoNuevo[1]" + str(estadoNuevo[1]);
     
     if(estadoMonstruo[0] == estadoNuevo[0] and estadoMonstruo[1] == estadoNuevo[1]):
         diferenteFilaYColumna = False;
@@ -379,7 +379,7 @@ def aplicarMonstruoDistintaFilaYColumna(estado):
         
     estadoNuevo = aplicarMonstruoDependiendoPosicionJugadorColumna(estado, diferenteFilaYColumna);
     
-    print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
+#     print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
     
     return estadoNuevo;
 
