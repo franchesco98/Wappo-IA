@@ -1,4 +1,9 @@
 import wapo.problema_espacio_estados as probee
+from wapo.AccionesJugador import AccionesJugador
+from wapo.AccionesMonstruo import AccionesMonstruo
+from wapo.MovimientosJugador import MovimientosJugador
+from wapo.MovimientosMonstruo import MovimientosMonstruo
+
 class Juego(probee.ProblemaEspacioEstados):
     
     def __init__(self, celdas, monstruo, jugador):
@@ -9,6 +14,16 @@ class Juego(probee.ProblemaEspacioEstados):
         self.turnoJugador = 0;
         self.turno = "jugador";
         self.casillaFinal = self.obtenerCasillaFinal();
+        acciones = [AccionesJugador(MovimientosJugador.ABAJO),
+                    AccionesJugador(MovimientosJugador.ARRIBA),
+                    AccionesJugador(MovimientosJugador.IZQUIERDA),
+                    AccionesJugador(MovimientosJugador.DERECHA),
+                    AccionesMonstruo(MovimientosMonstruo.ABAJO),
+                    AccionesMonstruo(MovimientosMonstruo.ARRIBA),
+                    AccionesMonstruo(MovimientosMonstruo.IZQUIERDA),
+                    AccionesMonstruo(MovimientosMonstruo.DERECHA),
+                    AccionesMonstruo(MovimientosMonstruo.DIFERENTE)];
+        super().__init__(acciones, self);
     
     def tamano_hor(self):
         return len(self.celdas[0])
@@ -17,6 +32,7 @@ class Juego(probee.ProblemaEspacioEstados):
         return len(self.celdas)
     
     def tipo_celda(self, f, c):
+#         print(f,c);
         celda = self.celdas[f][c];
         if (celda == 10):
             celda = "trampa"
@@ -61,15 +77,15 @@ class Juego(probee.ProblemaEspacioEstados):
         
     def obtenerCasillaFinal(self):
         casillaFinal = None;
+        
         for i in range(self.tamano_ver()):
             for j in range(self.tamano_hor()):
                 if (self.tipo_celda(i, j) == "fin"):
                     casillaFinal = (i, j);
                     break;
-                
         return casillaFinal;
     
     
-    def estadoFinal(self, estado):
-        return estado.jugador == self.casillaFinal;
+    def es_estado_final(self, estado):
+        return estado.jugador[0] == self.casillaFinal[0] and estado.jugador[1] == self.casillaFinal[1];
         

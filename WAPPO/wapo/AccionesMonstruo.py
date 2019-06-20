@@ -1,11 +1,11 @@
 import wapo.problema_espacio_estados as probee
-import copy
 from wapo.MovimientosMonstruo import MovimientosMonstruo
+import copy
 
 class AccionesMonstruo(probee.Accion):
     def __init__(self, movimiento):
         nombre = "Desplazamiento Monstruo - {}".format(movimiento.value);
-        super.__init__(nombre);
+        super().__init__(nombre);
         self.movimiento = movimiento;
         
     def es_aplicable(self, estado):
@@ -24,17 +24,20 @@ class AccionesMonstruo(probee.Accion):
     
     def aplicar(self, estado):
         if (self.movimiento == MovimientosMonstruo.ABAJO):
-            aplicabilidad = self.aplicarMonstruoMismaColumnaDown(estado);
+            aplicar = self.aplicarMonstruoMismaColumnaDown(estado);
         elif (self.movimiento == MovimientosMonstruo.ARRIBA):
-            aplicabilidad = self.aplicarMonstruoMismaColumnaUp(estado);
+            aplicar = self.aplicarMonstruoMismaColumnaUp(estado);
         elif (self.movimiento == MovimientosMonstruo.DERECHA):
-            aplicabilidad = self.aplicarMonstruoMismaFilaDerecha(estado);
+            aplicar = self.aplicarMonstruoMismaFilaDerecha(estado);
         elif (self.movimiento == MovimientosMonstruo.IZQUIERDA):
-            aplicabilidad = self.aplicarMonstruoMismaFilaIzq(estado);
+            aplicar = self.aplicarMonstruoMismaFilaIzq(estado);
         else:
-            aplicabilidad = self.aplicarMonstruoDistintaFilaYColumna(estado);
+            if (self.aplicabilidadMonstruoDistintaFilaYColumna(estado)):
+                distintaFila = self.aplicabilidadMonstruoDistintaFila(estado);
+                distintaColumna = self.aplicabilidadMonstruoDistintaColumna(estado);
+            aplicar = self.aplicarMonstruoDistintaFilaYColumna(estado, distintaFila, distintaColumna);
             
-        return aplicabilidad;
+        return aplicar;
     
     def coste_de_aplicar(self, estado):
         return estado.coste(estado.monstruo);
@@ -49,7 +52,8 @@ class AccionesMonstruo(probee.Accion):
         return estadoMonstruo[0] == estado.jugador[0] \
             and estado.turno == "monstruo" \
             and (estadoMonstruo[1] - 2 >= 0 or estadoMonstruo[1] - 4 >= 0)\
-            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo");
+            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo") \
+            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 2) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 4) != "obstaculo");
 
 
     def aplicabilidadMonstruoMismaFilaDerecha(self,estado):
@@ -57,14 +61,16 @@ class AccionesMonstruo(probee.Accion):
         return estadoMonstruo[0] == estado.jugador[0] \
             and estado.turno == "monstruo" \
             and (estadoMonstruo[1] + 2 < estado.tamano_hor() or estadoMonstruo[1] + 4 < estado.tamano_hor())\
-            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo");
+            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo") \
+            and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 2) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 4) != "obstaculo");
 
     def aplicabilidadMonstruoMismaColumnaUp(self,estado):
-        estadoMonstruo = estado.obtenerMonstruo();
+        estadoMonstruo = estado.monstruo;
         return estadoMonstruo[1] == estado.jugador[1] \
             and estado.turno == "monstruo" \
             and (estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
-            and (estado.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo");
+            and (estado.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo") \
+            and (estado.tipo_celda(estadoMonstruo[0] - 2, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 4, estadoMonstruo[1]) != "obstaculo");
 
 
     def aplicabilidadMonstruoMismaColumnaDown(self,estado):
@@ -72,8 +78,8 @@ class AccionesMonstruo(probee.Accion):
         return estadoMonstruo[1] == estado.jugador[1] \
             and estado.turno == "monstruo" \
             and (estadoMonstruo[0] + 2 < estado.tamano_ver() or estadoMonstruo[0] + 4 < estado.tamano_ver())\
-            and (estado.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo");
-        
+            and (estado.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo") \
+            and (estado.tipo_celda(estadoMonstruo[0] + 2, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 4, estadoMonstruo[1]) != "obstaculo");
         
     def aplicabilidadMonstruoDistintaFilaYColumna(self,estado):
         estadoMonstruo = estado.monstruo;
@@ -81,15 +87,39 @@ class AccionesMonstruo(probee.Accion):
         return estadoMonstruo[0] != estado.jugador[0]\
             and estadoMonstruo[1] != estado.jugador[1]\
             and estado.turno == "monstruo" \
+            and self.aplicabilidadMonstruoDistintaFila(estado) \
+            and self.aplicabilidadMonstruoDistintaColumna(estado);
+#             and ((estadoMonstruo[1] - 2 >= 0 or estadoMonstruo[1] - 4 >= 0)\
+#                 and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo"))\
+#                 or ((estadoMonstruo[1] + 2 < estado.tamano_hor() or estadoMonstruo[1] + 4 < estado.tamano_hor())\
+#                     and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo"))\
+#                 or ((estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
+#                     and (estado.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo"))\
+#                 or ((estadoMonstruo[0] + 2 < estado.tamano_ver() or estadoMonstruo[0] + 4 < estado.tamano_ver())\
+#                     and (estado.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo"));
+    
+    def aplicabilidadMonstruoDistintaFila(self, estado):
+        estadoMonstruo = estado.monstruo;
+        return estadoMonstruo[0] != estado.jugador[0]\
+            and estado.turno == "monstruo" \
             and ((estadoMonstruo[1] - 2 >= 0 or estadoMonstruo[1] - 4 >= 0)\
-                and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo"))\
-                or ((estadoMonstruo[1] + 2 < estado.tamano_hor() or estadoMonstruo[1] + 4 < estado.tamano_hor())\
-                    and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo"))\
-                or ((estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
-                    and (estado.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo"))\
-                or ((estadoMonstruo[0] + 2 < estado.tamano_ver() or estadoMonstruo[0] + 4 < estado.tamano_ver())\
-                    and (estado.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo"));
-                    
+                 and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 3) != "obstaculo") \
+                 and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 2) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] - 4) != "obstaculo")) \
+            or ((estadoMonstruo[1] + 2 < estado.tamano_hor() or estadoMonstruo[1] + 4 < estado.tamano_hor())\
+                and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 1) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 3) != "obstaculo") \
+                and (estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 2) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0], estadoMonstruo[1] + 4) != "obstaculo"));
+    
+    def aplicabilidadMonstruoDistintaColumna(self, estado):
+        estadoMonstruo = estado.monstruo;
+        return estadoMonstruo[1] != estado.jugador[1]\
+            and estado.turno == "monstruo" \
+            and ((estadoMonstruo[0] - 2 >= 0 or estadoMonstruo[0] - 4 >= 0)\
+                 and (estado.tipo_celda(estadoMonstruo[0] - 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 3, estadoMonstruo[1]) != "obstaculo") \
+                 and (estado.tipo_celda(estadoMonstruo[0] - 2, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] - 4, estadoMonstruo[1]) != "obstaculo")) \
+            or ((estadoMonstruo[0] + 2 < estado.tamano_ver() or estadoMonstruo[0] + 4 < estado.tamano_ver())\
+                and (estado.tipo_celda(estadoMonstruo[0] + 1, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 3, estadoMonstruo[1]) != "obstaculo") \
+                and (estado.tipo_celda(estadoMonstruo[0] + 2, estadoMonstruo[1]) != "obstaculo" or estado.tipo_celda(estadoMonstruo[0] + 4, estadoMonstruo[1]) != "obstaculo"));
+                
     def mismaColumnaUp(self,estado):
         arrayPos=[]
         estadoMonstruo=estado.monstruo
@@ -139,20 +169,20 @@ class AccionesMonstruo(probee.Accion):
     def actualizarMovimientoMonstruo(self, movimiento, estado, movimientoMonstruoActualizado, paso):
         estadoNuevo = copy.deepcopy(estado);
         
-        if (estado.turnoMonstruo == 0):
+        if (estadoNuevo.turnoMonstruo == 0):
             estadoNuevo.monstruo = movimientoMonstruoActualizado;
             
             if (movimiento == "fila"):
-                for i in range(estado.monstruo[1], estadoNuevo.monstruo[1], paso):
+                for i in range(estadoNuevo.monstruo[1], estadoNuevo.monstruo[1], paso):
                     if (estado.tipo_celda(estadoNuevo.monstruo[0], i) == "trampa"):
                         estadoNuevo.monstruo = (estadoNuevo.monstruo[0], i);
                         break;
             elif (movimiento == "columna"): 
-                for i in range(estado.monstruo[0], estadoNuevo.monstruo[0], paso):
+                for i in range(estadoNuevo.monstruo[0], estadoNuevo.monstruo[0], paso):
                     if (estado.tipo_celda(i, estadoNuevo.monstruo[1]) == "trampa"):
                         estadoNuevo.monstruo = (i, estadoNuevo.monstruo[1]);
                         break;
-            
+
             if (estado.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) == "trampa"):
                 estadoNuevo.turnoMonstruo = 5;
                 
@@ -168,7 +198,7 @@ class AccionesMonstruo(probee.Accion):
             mov = 4
             
         estadoMonstruo=estado.monstruo;
-        obstaculosColumnaUp=self.mismaColumnaUp()
+        obstaculosColumnaUp=self.mismaColumnaUp(estado)
         if(len(obstaculosColumnaUp)==0):
             estadoNuevo = self.actualizarMovimientoMonstruo("columna", estado, (estadoMonstruo[0]-mov,estadoMonstruo[1]), -1);
         elif(abs(estadoMonstruo[0]-max(obstaculosColumnaUp)[0])<4):
@@ -176,8 +206,6 @@ class AccionesMonstruo(probee.Accion):
         else:
             estadoNuevo = self.actualizarMovimientoMonstruo("columna", estado, (estadoMonstruo[0]-mov,estadoMonstruo[1]), -1);
             
-        
-        estado.monstruo.actualizarMonstruo(estadoNuevo);
         return estadoNuevo;
     
     def aplicarMonstruoMismaColumnaDown(self, estado, differenteFilaYColumna = False):
@@ -188,7 +216,7 @@ class AccionesMonstruo(probee.Accion):
             mov = 4
         
         estadoMonstruo=estado.monstruo;
-        obstaculosColumnaDown=self.mismaColumnaDown()
+        obstaculosColumnaDown=self.mismaColumnaDown(estado)
         if(len(obstaculosColumnaDown)==0):
             estadoNuevo = self.actualizarMovimientoMonstruo("columna", estado, (estadoMonstruo[0]+mov,estadoMonstruo[1]), 1);
         elif(abs(estadoMonstruo[0]-min(obstaculosColumnaDown)[0])<4):
@@ -206,7 +234,7 @@ class AccionesMonstruo(probee.Accion):
             mov = 4
         
         estadoMonstruo=estado.monstruo;
-        obstaculosFilaDerecha=self.mismaFilaDerecha()
+        obstaculosFilaDerecha=self.mismaFilaDerecha(estado)
         if(len(obstaculosFilaDerecha)==0):
             estadoNuevo = self.actualizarMovimientoMonstruo("fila", estado, (estadoMonstruo[0],estadoMonstruo[1]+mov), 1);
         elif(abs(estadoMonstruo[1]-min(obstaculosFilaDerecha)[1])<4):
@@ -224,7 +252,7 @@ class AccionesMonstruo(probee.Accion):
             mov = 4
          
         estadoMonstruo=estado.monstruo;
-        obstaculosFilaIzq=self.mismaFilaIzquierda()
+        obstaculosFilaIzq=self.mismaFilaIzquierda(estado)
         if(len(obstaculosFilaIzq)==0):
             estadoNuevo = self.actualizarMovimientoMonstruo("fila", estado, (estadoMonstruo[0],estadoMonstruo[1]-mov), -1);
         elif(abs(estadoMonstruo[1]-max(obstaculosFilaIzq)[1])<4):
@@ -235,11 +263,12 @@ class AccionesMonstruo(probee.Accion):
         return estadoNuevo
     
     
-    def aplicarMonstruoDistintaFilaYColumna(self, estado):
+    def aplicarMonstruoDistintaFilaYColumna(self, estado, distintaFila = False, distintaColumna = False):
     
         estadoMonstruo=estado.monstruo;
         
-        estadoNuevo = self.aplicarMonstruoDependiendoPosicionJugadorFila(estado, True);
+        if (distintaFila):
+            estadoNuevo = self.aplicarMonstruoDependiendoPosicionJugadorFila(estado, True);
         
     #     print "estadoMonstruo[0]: " + str(estadoMonstruo[0]) + "| estadoNuevo[0]" + str(estadoNuevo[0]) + "| estadoMonstruo[1]" + str(estadoMonstruo[1]) + "| estadoNuevo[1]" + str(estadoNuevo[1]);
         
@@ -248,7 +277,8 @@ class AccionesMonstruo(probee.Accion):
         else: 
             diferenteFilaYColumna = True;
             
-        estadoNuevo = self.aplicarMonstruoDependiendoPosicionJugadorColumna(estado, diferenteFilaYColumna);
+        if (distintaColumna):
+            estadoNuevo = self.aplicarMonstruoDependiendoPosicionJugadorColumna(estado, diferenteFilaYColumna);
         
     #     print "estadoMonstruo[0]: ",estadoMonstruo[0], "| estadoNuevo[0]",estadoNuevo[0], "| estadoMonstruo[1]",estadoMonstruo[1], "| estadoNuevo[1]",estadoNuevo[1];
         
