@@ -52,7 +52,7 @@ print(mapa_ejemplo.obtenerCasillaFinal())
 # print("b_optima_nueva.buscar[problema]") 
 # print(b_optima_nueva.buscar(mapa_ejemplo));
 
-b_anchura = busqee.BusquedaEnAnchura(detallado=False);
+b_anchura = busqee.BusquedaEnAnchura(detallado=True);
 print(b_anchura.buscar(mapa_ejemplo))
 
 # b_profundidad = busqee.BusquedaEnProfundidad(detallado=True)

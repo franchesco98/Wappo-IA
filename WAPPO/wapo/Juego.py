@@ -57,13 +57,11 @@ class Juego(probee.ProblemaEspacioEstados):
         
         for i in range(self.tamano_ver()):
                 
-                if(self.tipo_celda(i, columna) == "obstaculo"):
-                    obstaculo = (i, columna)
-                    obstaculos.append(obstaculo)
+            if(self.tipo_celda(i, columna) == "obstaculo"):
+                obstaculo = (i, columna)
+                obstaculos.append(obstaculo)
         return obstaculos
-    
-    
-    
+
         
     def obstaculoFilas(self, fila):
         obstaculos = []
@@ -88,4 +86,7 @@ class Juego(probee.ProblemaEspacioEstados):
     
     def es_estado_final(self, estado):
         return estado.jugador[0] == self.casillaFinal[0] and estado.jugador[1] == self.casillaFinal[1];
+    
+    def __str__(self):
+        return "Jugador: {} | Monstruo: {}".format(self.jugador, self.monstruo);
         

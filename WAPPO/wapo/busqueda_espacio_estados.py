@@ -137,6 +137,7 @@ class BusquedaGeneral:
             if self.detallado:
                 print('{0}Nodo: {1}'.format('  ' * nodo.profundidad, nodo))
             if problema.es_estado_final(nodo.estado):
+                print("Jugador: ",nodo.estado.jugador," | Monstruo: ",nodo.estado.monstruo)
                 return nodo.solucion()
             self.explorados.anadir(nodo)
             if self.es_expandible(nodo):
