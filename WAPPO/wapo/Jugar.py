@@ -1,48 +1,67 @@
 from wapo.Juego import Juego
 import wapo.busqueda_espacio_estados as busqee
 
-print("Nivel 0");
- 
-monstruo = (2,0);
-  
-jugador = (8,4);
+# print("Nivel 0");
+#     
+# monstruo = (2,0);
+#      
+# jugador = (8,4);
+#    
+# # mapa_ejemplo = Juego([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo"],
+# #                       ["obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,"obstaculo"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,"obstaculo"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "fin"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+# #                       [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"]], monstruo, jugador);
 
-mapa_ejemplo = Juego([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,"obstaculo"],
-                      ["obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,"obstaculo"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,"obstaculo"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "fin"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-                      [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"]], monstruo, jugador);
 
-
-# print("Nivel 1");
+print("Nivel 1");
+     
+jugador = (2, 6);
+     
+monstruo = (2, 10);
+      
+mapa_ejemplo = Juego([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, "obstaculo", 1, 1, 1, "obstaculo", "obstaculo"],
+                    [1, 1, 10, 1, 1, 1, 1, 1, 1, "obstaculo", 1, "obstaculo"],
+                    [1, 1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo", 1, "obstaculo"],
+                    ["obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "fin", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo"]], monstruo, jugador);
+          
+# print("Nivel 2")
+#           
+# jugador = (8, 8)     
 # 
-# jugador = (2, 6);
+# monstruo = (10, 10)
 # 
-# monstruo = (2, 10);
-
 # mapa_ejemplo = Juego([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-#                     [1, 1, 1, 1, 1, 1, "obstaculo", 1, 1, 1, "obstaculo", "obstaculo"],
-#                     [1, 1, 10, 1, 1, 1, 1, 1, 1, "obstaculo", 1, "obstaculo"],
-#                     [1, 1, "obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+#                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+#                     [1, 1, 1, 1, 10, 1, 1, 1, 1, 1, 1, "obstaculo"],
+#                     ["obstaculo", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
 #                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
 #                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
 #                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+#                     [1, 1, 1, 1, 1, 1, "obstaculo", 1, 1, 1, 1, "obstaculo"],
+#                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
+#                     ["obstaculo", "obstaculo", 1, 1, 1, 1, 1, 1, "obstaculo", 1, 1, "obstaculo"],
 #                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
 #                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-#                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-#                     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo"],
-#                     [1, 1, 1, 1, 1, 1, 1, 1, 1, "obstaculo", 1, "obstaculo"],
-#                     ["obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "fin", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo"]], monstruo, jugador);
-#                       
-
-print(mapa_ejemplo.obtenerCasillaFinal())
+#                     ["obstaculo", "obstaculo", "fin", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo"]], monstruo, jugador);           
+   
+# print(mapa_ejemplo.obtenerCasillaFinal())
                  
 
                         

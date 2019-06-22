@@ -1,8 +1,6 @@
 import wapo.problema_espacio_estados as probee
 from wapo.AccionesJugador import AccionesJugador
-from wapo.AccionesMonstruo import AccionesMonstruo
 from wapo.MovimientosJugador import MovimientosJugador
-from wapo.MovimientosMonstruo import MovimientosMonstruo
 
 class Juego(probee.ProblemaEspacioEstados):
     
@@ -17,12 +15,7 @@ class Juego(probee.ProblemaEspacioEstados):
         acciones = [AccionesJugador(MovimientosJugador.ABAJO),
                     AccionesJugador(MovimientosJugador.ARRIBA),
                     AccionesJugador(MovimientosJugador.IZQUIERDA),
-                    AccionesJugador(MovimientosJugador.DERECHA),
-                    AccionesMonstruo(MovimientosMonstruo.ABAJO),
-                    AccionesMonstruo(MovimientosMonstruo.ARRIBA),
-                    AccionesMonstruo(MovimientosMonstruo.IZQUIERDA),
-                    AccionesMonstruo(MovimientosMonstruo.DERECHA),
-                    AccionesMonstruo(MovimientosMonstruo.DIFERENTE)];
+                    AccionesJugador(MovimientosJugador.DERECHA)];
         super().__init__(acciones, self);
     
     def tamano_hor(self):
