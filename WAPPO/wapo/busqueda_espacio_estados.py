@@ -81,6 +81,9 @@ class NodoConProfundidad(NodoSimple):
             self.profundidad = 0
         else:
             self.profundidad = padre.profundidad + 1
+            
+        if self.profundidad == 11:
+            hola = "hola"
 
     def __str__(self):
         return 'Estado: {0}; Prof: {1}'.format(self.estado, self.profundidad)
