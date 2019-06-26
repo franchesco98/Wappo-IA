@@ -31,7 +31,7 @@ class Juego(probee.ProblemaEspacioEstados):
     def tipo_celda(self, f, c):
 #         print(f,c);
         celda = self.celdas[f][c];
-        if (celda == -10):
+        if (celda == 1):
             celda = "trampa"
         return celda;
     
@@ -97,5 +97,5 @@ class Juego(probee.ProblemaEspacioEstados):
         return estado.jugador[0] == self.casillaFinal[0] and estado.jugador[1] == self.casillaFinal[1];
     
     def __str__(self):
-        return "Jugador: {} | Monstruo: {}".format(self.jugador, self.monstruo);
+        return "Jugador: {} | Monstruo: {} | Turno monstruo: {}".format(self.jugador, self.monstruo, self.turnoMonstruo);
         

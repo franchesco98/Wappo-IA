@@ -112,7 +112,7 @@ class AccionesJugador(probee.Accion):
 #                 self.aplicarMonstruoMismaColumnaArriba(estado)
 #         else:
 #             self.aplicarMonstruoDistintaFilaYColumna(estado)
-
+        estadoAntiguo = copy.deepcopy(estado)
         estadoNuevo = estado
         
         if (estadoNuevo.jugador[1] == estadoNuevo.monstruo[1]):
@@ -125,16 +125,22 @@ class AccionesJugador(probee.Accion):
             estadoAntiguo = copy.deepcopy(estado)
             self.moverMismaFila(estadoNuevo)
             
-            if (estadoAntiguo.monstruo[1] == estadoNuevo.monstruo[1]):
+            if (estadoAntiguo.monstruo[1] == estadoNuevo.monstruo[1] and estadoNuevo.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) != "trampa"):
                 self.moverMismaColumna(estadoNuevo)
                 
-            estadoAntiguo = copy.deepcopy(estadoNuevo)
+            estadoTrasMoverFila = copy.deepcopy(estadoNuevo)
             
             self.moverMismaFila(estadoNuevo)
             
-            if (estadoAntiguo.monstruo[1] == estadoNuevo.monstruo[1]):
-                self.moverMismaColumna(estadoNuevo)
+            boolean = estadoTrasMoverFila.monstruo[1] == estadoNuevo.monstruo[1] and estadoNuevo.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) != "trampa"
             
+            if boolean:
+                self.moverMismaColumna(estadoNuevo)
+                
+                
+        if (estadoAntiguo.tipo_celda(estadoAntiguo.monstruo[0], estadoAntiguo.monstruo[1]) != "trampa" and estado.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) == "trampa"):
+            estadoNuevo.turnoMonstruo = 3
+                        
     def moverMismaFila(self, estado):
         obstaculosMismaFila = estado.obstaculoFilas(estado.monstruo[0])
         movimiento = estado.monstruo[1] - estado.jugador[1]
@@ -145,7 +151,7 @@ class AccionesJugador(probee.Accion):
             paso = -1
             
         obstaculo = None
-        estadoMonstruoActualizadoFila = 2
+        estadoMonstruoActualizadoFila = 2*paso
         
         trampa = self.obtenerTrampaDadoUnMovimientoFila(estado, movimiento, paso)
         
@@ -158,21 +164,22 @@ class AccionesJugador(probee.Accion):
                     obstaculo = obstaculoMismaFila[1]
                     break
                     
-            obstaculosYTrampas = min((estado.monstruo[1] - obstaculo - paso) if obstaculo != None else 4387, estado.monstruo[1] - trampa if trampa != 5487 else 5487)
+            obstaculosYTrampas = min((estado.monstruo[1] - obstaculo - paso) if obstaculo != None else 4387, estado.monstruo[1] - trampa[1] if trampa != None else 5487)
+            
+            if (obstaculo != None or trampa != None): 
+                estadoMonstruoActualizadoFila = obstaculosYTrampas
                 
-            estadoMonstruoActualizadoFila = min(estadoMonstruoActualizadoFila, obstaculosYTrampas)
-                
-        estado.monstruo = (estado.monstruo[0], estado.monstruo[1]  - (estadoMonstruoActualizadoFila*paso))
+        estado.monstruo = (estado.monstruo[0], estado.monstruo[1]  - (estadoMonstruoActualizadoFila))
+        
         return estado
     
     def obtenerTrampaDadoUnMovimientoFila(self, estado, movimiento, paso):
         trampas = estado.trampas
-        ret = 5487
-        for movimientoRealizado in range(estado.monstruo[0]-movimiento, estado.monstruo[0], paso):
+        ret = None
+        for movimientoRealizado in range(estado.monstruo[1]-movimiento, estado.monstruo[1], paso):
             for trampa in trampas:
-                if movimientoRealizado == trampa[0] and estado.monstruo[1] == trampa[1]:
-                    estado.turnoMonstruo = 4
-                    ret = trampa[0];
+                if (estado.tipo_celda(estado.monstruo[0], estado.monstruo[1]) != "trampa") and (movimientoRealizado == trampa[1] and estado.monstruo[0] == trampa[0]):
+                    ret = trampa;
                     break
             
         return ret
@@ -192,7 +199,7 @@ class AccionesJugador(probee.Accion):
             paso = -1
             
         obstaculo = None
-        estadoMonstruoActualizadoColumna = 2
+        estadoMonstruoActualizadoColumna = 2*paso
         trampa = self.obtenerTrampaDadoUnMovimientoColumna(estado, movimiento, paso)
         
         if (len(range(estado.monstruo[0]-movimiento, estado.monstruo[0], paso)) == 0):
@@ -204,22 +211,23 @@ class AccionesJugador(probee.Accion):
                     obstaculo = obstaculoMismaColumna[0]
                     break
                     
-            obstaculosYTrampas = min(2, (estado.monstruo[0] - obstaculo - paso) if obstaculo != None else 4387, (estado.monstruo[1] - trampa) if trampa != 5487 else 5487)
+            obstaculosYTrampas = min((estado.monstruo[0] - obstaculo - paso) if obstaculo != None else 4387, (estado.monstruo[0] - trampa[0]) if trampa != None else 5487)
+            
+            if (obstaculo != None or trampa != None): 
+                estadoMonstruoActualizadoColumna = obstaculosYTrampas
                 
-            estadoMonstruoActualizadoColumna = min(2, estadoMonstruoActualizadoColumna, obstaculosYTrampas)
-                
-        estado.monstruo = (estado.monstruo[0] - (estadoMonstruoActualizadoColumna*paso), estado.monstruo[1])
+        estado.monstruo = (estado.monstruo[0] - (estadoMonstruoActualizadoColumna), estado.monstruo[1])
+        
         prueba = estado.monstruo[0] - estadoMonstruoActualizadoColumna*paso
         return estado
     
     def obtenerTrampaDadoUnMovimientoColumna(self, estado, movimiento, paso):
         trampas = estado.trampas
-        ret = 5487
-        for movimientoRealizado in range(estado.monstruo[1]-movimiento, estado.monstruo[1], paso):
+        ret = None
+        for movimientoRealizado in range(estado.monstruo[0]-movimiento, estado.monstruo[0], paso):
             for trampa in trampas:
-                if movimientoRealizado == trampa[1] and estado.monstruo[0] == trampa[0]:
-                    estado.turnoMonstruo = 4
-                    ret = trampa[1];
+                if (estado.tipo_celda(estado.monstruo[0], estado.monstruo[1]) != "trampa") and (movimientoRealizado == trampa[0] and estado.monstruo[1] == trampa[1]):
+                    ret = trampa;
                     break
             
         return ret

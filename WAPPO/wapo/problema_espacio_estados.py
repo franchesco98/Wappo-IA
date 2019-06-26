@@ -39,6 +39,8 @@ class ProblemaEspacioEstados:
         self.estados_finales = estados_finales
 
     def es_estado_final(self, estado):
+        if (estado.monstruo == (2,2)):
+            print(estado.monstruo)
         return estado in self.estados_finales
 
     def acciones_aplicables(self, estado):
