@@ -36,8 +36,8 @@ class Juego(probee.ProblemaEspacioEstados):
         return celda;
     
     def coste(self, celda):
-        coste = self.celdas[celda[0]][celda[0]]
-        if self.jugador == self.monstruo:
+        coste = self.celdas[celda[0]][celda[1]]
+        if self.jugador[0] == self.monstruo[0] and self.jugador[1] == self.monstruo[1]:
             coste = 1000
         return coste;
     

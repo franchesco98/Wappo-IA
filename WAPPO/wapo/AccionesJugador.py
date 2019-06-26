@@ -11,6 +11,7 @@ class AccionesJugador(probee.Accion):
     def es_aplicable(self, estado):
         aplicabilidad = estado.jugador[0] >= 0 and estado.jugador[0] < estado.tamano_ver() \
             and estado.jugador[1] >= 0 and estado.jugador[1] < estado.tamano_hor()
+    
         if (self.movimiento == MovimientosJugador.ABAJO):
             aplicabilidad = aplicabilidad and self.aplicabilidadMoveDown(estado);
         elif (self.movimiento == MovimientosJugador.ARRIBA):
@@ -36,7 +37,15 @@ class AccionesJugador(probee.Accion):
         return estadoNuevo;
     
     def coste_de_aplicar(self, estado):
-        return estado.coste(estado.jugador);
+        coste = estado.coste(estado.jugador)
+        
+        if (estado.jugador == (4,0) and estado.monstruo == (4,0)):
+            hola = "debug xd"
+        
+        if (estado.jugador[0] == estado.monstruo[0] and estado.jugador[1] == estado.monstruo[1]):
+            coste = 1000
+        
+        return coste;
     
     #Accion "Moverse hacia abajo"
     def aplicabilidadMoveDown(self, estado):
