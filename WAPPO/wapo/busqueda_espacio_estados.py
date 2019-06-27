@@ -134,7 +134,7 @@ class BusquedaGeneral:
         self.explorados.vaciar()
         self.frontera.anadir(self.Nodo(problema.estado_inicial))
         while True:
-            if not self.frontera:
+            if not self.frontera: 
                 return None
             nodo = self.frontera.sacar()
             if self.detallado:

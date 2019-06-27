@@ -1,9 +1,9 @@
 import wapo.problema_espacio_estados as probee
 from wapo.AccionesJugador import AccionesJugador
 from wapo.MovimientosJugador import MovimientosJugador
-from wapo.AccionesMonstruo import AccionesMonstruo
-from wapo.MovimientosMonstruo import MovimientosMonstruo
-from wapo.AccionesMonstruo2 import AccionesMonstruo2
+from wapo.problema_espacio_estados import ProblemaEspacioEstados
+
+
 
 class Juego(probee.ProblemaEspacioEstados):
     
@@ -98,4 +98,10 @@ class Juego(probee.ProblemaEspacioEstados):
     
     def __str__(self):
         return "Jugador: {} | Monstruo: {} | Turno monstruo: {}".format(self.jugador, self.monstruo, self.turnoMonstruo);
-        
+    
+    
+    def __eq__(self, other): 
+        if isinstance(other, self.__class__):
+            return self.jugador==other.jugador and self.monstruo==other.monstruo and self.turnoMonstruo==other.turnoMonstruo
+        return False
+           
