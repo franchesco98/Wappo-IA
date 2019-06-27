@@ -1,7 +1,7 @@
 import collections
 import heapq
 import types
-
+import time
 
 class ListaNodos(collections.deque):
     def anadir(self, nodo):
@@ -81,9 +81,6 @@ class NodoConProfundidad(NodoSimple):
             self.profundidad = 0
         else:
             self.profundidad = padre.profundidad + 1
-            
-        if self.profundidad == 11:
-            hola = "hola"
 
     def __str__(self):
         return 'Estado: {0}; Prof: {1}'.format(self.estado, self.profundidad)
@@ -130,6 +127,7 @@ class BusquedaGeneral:
                 nodo not in self.explorados)
 
     def buscar(self, problema):
+        inicio = time.time()
         self.frontera.vaciar()
         self.explorados.vaciar()
         self.frontera.anadir(self.Nodo(problema.estado_inicial))
@@ -140,7 +138,8 @@ class BusquedaGeneral:
             if self.detallado:
                 print('{0}Nodo: {1}'.format('  ' * nodo.profundidad, nodo))
             if problema.es_estado_final(nodo.estado):
-                print("Jugador: ",nodo.estado.jugador," | Monstruo: ",nodo.estado.monstruo)
+                nodosExplorados = len(self.explorados)
+                print("Jugador: {} | Nodos explorados totales: {} | Tiempo de ejecucion: {} segundos".format(nodo.estado.jugador,nodosExplorados,time.time() - inicio))
                 return nodo.solucion()
             self.explorados.anadir(nodo)
             if self.es_expandible(nodo):

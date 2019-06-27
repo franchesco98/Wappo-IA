@@ -24,6 +24,7 @@ class AccionesJugador(probee.Accion):
         return aplicabilidad;
     
     def aplicar(self, estado):
+        
         estadoNuevo = copy.deepcopy(estado);
         if (self.movimiento == MovimientosJugador.ABAJO):
             self.aplicarMDown(estadoNuevo);
@@ -38,13 +39,6 @@ class AccionesJugador(probee.Accion):
     
     def coste_de_aplicar(self, estado):
         coste = estado.coste(estado.jugador)
-        
-        if (estado.jugador == (4,0) and estado.monstruo == (4,0)):
-            hola = "debug xd"
-        
-        if (estado.jugador[0] == estado.monstruo[0] and estado.jugador[1] == estado.monstruo[1]):
-            coste = 1000
-        
         return coste;
     
     #Accion "Moverse hacia abajo"
@@ -121,6 +115,9 @@ class AccionesJugador(probee.Accion):
 #                 self.aplicarMonstruoMismaColumnaArriba(estado)
 #         else:
 #             self.aplicarMonstruoDistintaFilaYColumna(estado)
+#             
+#         if estado.jugador == (10, 0):
+#             debug = True
         estadoAntiguo = copy.deepcopy(estado)
         estadoNuevo = estado
         
@@ -139,12 +136,13 @@ class AccionesJugador(probee.Accion):
                 
             estadoTrasMoverFila = copy.deepcopy(estadoNuevo)
             
-            self.moverMismaFila(estadoNuevo)
+            if (estado.tipo_celda(estado.monstruo[0], estado.monstruo[1]) != "trampa"):
+                self.moverMismaFila(estadoNuevo)
             
-            boolean = estadoTrasMoverFila.monstruo[1] == estadoNuevo.monstruo[1] and estadoNuevo.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) != "trampa"
+                boolean = estadoTrasMoverFila.monstruo[1] == estadoNuevo.monstruo[1] and estadoNuevo.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) != "trampa"
             
-            if boolean:
-                self.moverMismaColumna(estadoNuevo)
+                if boolean:
+                    self.moverMismaColumna(estadoNuevo)
                 
                 
         if (estadoAntiguo.tipo_celda(estadoAntiguo.monstruo[0], estadoAntiguo.monstruo[1]) != "trampa" and estado.tipo_celda(estadoNuevo.monstruo[0], estadoNuevo.monstruo[1]) == "trampa"):
@@ -167,7 +165,7 @@ class AccionesJugador(probee.Accion):
         if (len(range(estado.monstruo[1]-movimiento, estado.monstruo[1], paso)) == 0):
             estadoMonstruoActualizadoFila = 0
         
-        for movimientoRealizado in range(estado.monstruo[1]-movimiento, estado.monstruo[1], paso):
+        for movimientoRealizado in range(estado.monstruo[1]-estadoMonstruoActualizadoFila, estado.monstruo[1], paso):
             for obstaculoMismaFila in obstaculosMismaFila:
                 if (movimientoRealizado == obstaculoMismaFila[1] and obstaculoMismaFila[0] == estado.monstruo[0]):
                     obstaculo = obstaculoMismaFila[1]
@@ -175,7 +173,7 @@ class AccionesJugador(probee.Accion):
                     
             obstaculosYTrampas = min((estado.monstruo[1] - obstaculo - paso) if obstaculo != None else 4387, estado.monstruo[1] - trampa[1] if trampa != None else 5487)
             
-            if (obstaculo != None or trampa != None): 
+            if (obstaculo != None or trampa != None and abs(estadoMonstruoActualizadoFila) > abs(obstaculosYTrampas)): 
                 estadoMonstruoActualizadoFila = obstaculosYTrampas
                 
         estado.monstruo = (estado.monstruo[0], estado.monstruo[1]  - (estadoMonstruoActualizadoFila))
@@ -196,10 +194,6 @@ class AccionesJugador(probee.Accion):
     
     def moverMismaColumna(self, estado):
         obstaculosMismaColumna = estado.obstaculoColumna(estado.monstruo[1])
-        
-        if (estado.jugador[0] == 4 and estado.jugador[1] == 4):
-            hola = "hola"
-        
         movimiento = estado.monstruo[0] - estado.jugador[0]
         
         if (movimiento >= 0):
@@ -214,7 +208,7 @@ class AccionesJugador(probee.Accion):
         if (len(range(estado.monstruo[0]-movimiento, estado.monstruo[0], paso)) == 0):
             estadoMonstruoActualizadoColumna = 0
         
-        for movimientoRealizado in range(estado.monstruo[0]-movimiento, estado.monstruo[0], paso):
+        for movimientoRealizado in range(estado.monstruo[0]-estadoMonstruoActualizadoColumna, estado.monstruo[0], paso):
             for obstaculoMismaColumna in obstaculosMismaColumna:
                 if (movimientoRealizado == obstaculoMismaColumna[0] and obstaculoMismaColumna[1] == estado.monstruo[1]):
                     obstaculo = obstaculoMismaColumna[0]
@@ -222,7 +216,7 @@ class AccionesJugador(probee.Accion):
                     
             obstaculosYTrampas = min((estado.monstruo[0] - obstaculo - paso) if obstaculo != None else 4387, (estado.monstruo[0] - trampa[0]) if trampa != None else 5487)
             
-            if (obstaculo != None or trampa != None): 
+            if (obstaculo != None or trampa != None and abs(estadoMonstruoActualizadoColumna) > abs(obstaculosYTrampas)): 
                 estadoMonstruoActualizadoColumna = obstaculosYTrampas
                 
         estado.monstruo = (estado.monstruo[0] - (estadoMonstruoActualizadoColumna), estado.monstruo[1])

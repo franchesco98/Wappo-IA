@@ -38,7 +38,9 @@ class Juego(probee.ProblemaEspacioEstados):
     def coste(self, celda):
         coste = self.celdas[celda[0]][celda[1]]
         if self.jugador[0] == self.monstruo[0] and self.jugador[1] == self.monstruo[1]:
-            coste = 1000
+            coste = 50
+        elif self.tipo_celda(self.monstruo[0], self.monstruo[1]) == "trampa":
+            coste = 5
         return coste;
     
     def obtenerTrampas(self):
@@ -98,7 +100,6 @@ class Juego(probee.ProblemaEspacioEstados):
     
     def __str__(self):
         return "Jugador: {} | Monstruo: {} | Turno monstruo: {}".format(self.jugador, self.monstruo, self.turnoMonstruo);
-    
     
     def __eq__(self, other): 
         if isinstance(other, self.__class__):
