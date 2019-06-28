@@ -1,9 +1,6 @@
-import wapo.problema_espacio_estados as probee
-from wapo.AccionesJugador import AccionesJugador
-from wapo.MovimientosJugador import MovimientosJugador
-from wapo.problema_espacio_estados import ProblemaEspacioEstados
-
-
+import wappo.problema_espacio_estados as probee
+from wappo.AccionesJugador import AccionesJugador
+from wappo.MovimientosJugador import MovimientosJugador
 
 class Juego(probee.ProblemaEspacioEstados):
     
@@ -52,7 +49,7 @@ class Juego(probee.ProblemaEspacioEstados):
     def obstaculo(self):
         obstaculos = []
         
-        for i in range(self.tamano_ver()):
+        for i in range(self.tamano_ver()): 
             for j in range (self.tamano_hor()):
                 
                 if(self.tipo_celda(i, j) == "obstaculo"):
@@ -63,7 +60,7 @@ class Juego(probee.ProblemaEspacioEstados):
     def obstaculoColumna(self, columna):
         obstaculos = []
         
-        for i in range(self.tamano_ver()):
+        for i in range(self.tamano_ver()): 
                 
             if(self.tipo_celda(i, columna) == "obstaculo"):
                 obstaculo = (i, columna)

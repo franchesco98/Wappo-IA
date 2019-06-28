@@ -1,5 +1,5 @@
-import wapo.problema_espacio_estados as probee
-from wapo.MovimientosJugador import MovimientosJugador
+import wappo.problema_espacio_estados as probee
+from wappo.MovimientosJugador import MovimientosJugador
 import copy
 
 class AccionesJugador(probee.Accion):
@@ -256,5 +256,4 @@ class AccionesJugador(probee.Accion):
         for obstaculo in obstaculos:
             if((obstaculo[1]<estadoMonstruo[1])):
                 arrayPos.append(obstaculo)
-        return arrayPos
-                  
+        return arrayPos               
