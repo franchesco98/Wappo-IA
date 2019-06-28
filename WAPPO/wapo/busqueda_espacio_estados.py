@@ -160,6 +160,7 @@ class BusquedaEnProfundidad(BusquedaGeneral):
         super().__init__(detallado)
         self.frontera = PilaNodos()
         self.explorados = PilaNodos()
+        self.exploradosReales = 0
 
         def anadir_vaciando_rama(self, nodo):
             if self:
@@ -171,6 +172,28 @@ class BusquedaEnProfundidad(BusquedaGeneral):
             self.append(nodo)
         self.explorados.anadir = types.MethodType(anadir_vaciando_rama,
                                                   self.explorados)
+        
+    def buscar(self, problema):
+        inicio = time.time()
+        self.frontera.vaciar()
+        self.explorados.vaciar()
+        self.frontera.anadir(self.Nodo(problema.estado_inicial))
+        while True:
+            if not self.frontera: 
+                return None
+            nodo = self.frontera.sacar()
+            self.exploradosReales += 1
+            if self.detallado:
+                print('{0}Nodo: {1}'.format('  ' * nodo.profundidad, nodo))
+            if problema.es_estado_final(nodo.estado):
+                print("Jugador: {} | Nodos explorados totales: {} | Tiempo de ejecucion: {} segundos".format(nodo.estado.jugador,self.exploradosReales,time.time() - inicio))
+                return nodo.solucion()
+            self.explorados.anadir(nodo)
+            if self.es_expandible(nodo):
+                nodos_hijos = self.expandir_nodo(nodo, problema)
+                for nodo_hijo in nodos_hijos:
+                    if self.es_nuevo(nodo_hijo):
+                        self.frontera.anadir(nodo_hijo)
 
 
 class BusquedaEnProfundidadAcotada(BusquedaEnProfundidad):

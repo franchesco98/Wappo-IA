@@ -1,0 +1,39 @@
+# print("Nivel 9");
+#                    
+# jugador = (10,8);
+#      
+# monstruo = (8,2);
+# 
+#                    
+# mapa_ejemplo = Juego([["fin", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo"],
+#                     [10, "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo", "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, "obstaculo", 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, "obstaculo", 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     ["obstaculo", "obstaculo", "obstaculo", 10, 10, 10, "obstaculo", "obstaculo", "obstaculo", 10, 10, "obstaculo"],
+#                     [10, 10, 1, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, "obstaculo", 10, 10, 10, 10, "obstaculo"],
+#                     [10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo", 10, "obstaculo"]], monstruo, jugador);
+
+
+# print("Nivel 10");
+#                  
+# jugador = (10,6);
+#                   
+# monstruo = (2,4);
+#                 
+# mapa_ejemplo = Juego([["obstaculo", "obstaculo", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo", 10 ,10],
+#                       ["obstaculo", "obstaculo", 10, "obstaculo", 10, 10, 10, 10, 10, "obstaculo", 10, 10 ,10],
+#                       ["obstaculo", "obstaculo", 10, 10, "obstaculo", 10, "obstaculo", 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, "obstaculo", 10, 10, 10, 10, 10, 10],
+#                       ["fin", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, 1, 10, 10, 10, 10, 10, 10],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, "obstaculo"],
+#                       ["obstaculo", "obstaculo", 10, 10, 10, "obstaculo", 10, 10, 10, 10, 10, 10, 10]], monstruo, jugador);

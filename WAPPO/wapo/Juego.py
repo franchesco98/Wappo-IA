@@ -12,8 +12,6 @@ class Juego(probee.ProblemaEspacioEstados):
         self.monstruo = monstruo;
         self.jugador = jugador;
         self.turnoMonstruo = 0;
-        self.turnoJugador = 0;
-        self.turno = "jugador";
         self.trampas = self.obtenerTrampas()
         self.casillaFinal = self.obtenerCasillaFinal();
         acciones = [AccionesJugador(MovimientosJugador.ABAJO),
@@ -29,7 +27,6 @@ class Juego(probee.ProblemaEspacioEstados):
         return len(self.celdas)
     
     def tipo_celda(self, f, c):
-#         print(f,c);
         celda = self.celdas[f][c];
         if (celda == 1):
             celda = "trampa"
