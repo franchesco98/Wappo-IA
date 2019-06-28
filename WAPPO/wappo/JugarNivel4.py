@@ -23,7 +23,7 @@ nivel4 = Juego([[10, 10, 10, "obstaculo", 10, "obstaculo", 10, 10, 10, 10, 10, 1
 print("Busqueda optima")
 b_optima_nueva = busqee.BusquedaOptima()
 solucion = b_optima_nueva.buscar(nivel4)
-print("Movimientos realizaados")
+print("Movimientos realizados")
 i = 1
 for movimiento in solucion:
     print(i,". ",movimiento)
@@ -32,7 +32,7 @@ for movimiento in solucion:
 print("Busqueda en anchura")
 b_anchura = busqee.BusquedaEnAnchura();
 solucion = b_anchura.buscar(nivel4)
-print("Movimientos realizaados")
+print("Movimientos realizados")
 i = 1
 for movimiento in solucion:
     print(i,". ",movimiento)
@@ -41,7 +41,7 @@ for movimiento in solucion:
 print("Busqueda en profundidad")
 b_profundidad = busqee.BusquedaEnProfundidad()
 solucion = b_profundidad.buscar(nivel4)
-print("Movimientos realizaados")
+print("Movimientos realizados")
 i = 1
 for movimiento in solucion:
     print(i,". ",movimiento)
@@ -58,7 +58,7 @@ def heurisiticaManhattan(nodo):
     return aux
 b_a_estrella = busqee.BusquedaAEstrella(heurisiticaManhattan)
 solucion = b_a_estrella.buscar(nivel4)
-print("Movimientos realizaados")
+print("Movimientos realizados")
 i = 1
 for movimiento in solucion:
     print(i,". ",movimiento)
@@ -111,7 +111,7 @@ def heuristicaMuroMasManhattan(nodo):
     return aux
 b_a_estrella = busqee.BusquedaAEstrella(heuristicaMuroMasManhattan)
 solucion = b_a_estrella.buscar(nivel4)
-print("Movimientos realizaados")
+print("Movimientos realizados")
 i = 1
 for movimiento in solucion:
     print(i,". ",movimiento)
